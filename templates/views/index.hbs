@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerLinks}}
+</head>
+<body>
+    <!-- NavBar starts here -->
+    {{>navbar}}
+    <!-- NavBar ends here -->
+
+    <div class="main-container">
+        <!-- Home starts here -->
+        {{>home}}
+        <!-- Home ends here -->
+
+        <!-- Weather starts here -->
+        {{>weather}}
+        <!-- Weather ends here -->
+
+        <!-- About starts here -->
+        {{>about}}
+        <!-- About endss here -->
+    </div>
+
+    <!-- Footer starts here -->
+    {{>footer}}
+    <!-- Footer ends here -->
+    
+    <script src="js/api_call.js"></script>
+    <script src="js/handler.js"></script>
+
+</body>
+</html>
