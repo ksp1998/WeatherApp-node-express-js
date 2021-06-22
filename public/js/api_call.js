@@ -13,19 +13,17 @@ const API_KEY = '284b84ec4a7e7f27748df72eb78ddbd2'
 
 const getAPIData = async (cityName) => {
 
-    const j = await fetch('')
-
     const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`
     const response = await fetch(apiURL)
     const data = await response.json();
     return data
 }
 
+const weekdays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satuday' ]
+const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+
 const setDate = (offset = 19800) => {
 
-    const weekdays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satuday' ]
-    const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
-    
     let currDate = new Date()
     currDate.setMinutes(currDate.getMinutes() + currDate.getTimezoneOffset())
     currDate.setSeconds(currDate.getSeconds() + offset)
@@ -70,7 +68,6 @@ const setData = async(cityName) => {
     if(cityName === '') {
         cityText.innerHTML = 'Please input city name!'
         inputValue.focus()
-        // console.log('Please input city name!');
     }
     else {
         
@@ -78,6 +75,7 @@ const setData = async(cityName) => {
         // console.log(data)
 
         if(data.cod === 200) {
+
             cityText.innerHTML = `${data.name}, ${data.sys.country}`
             setDate(data.timezone)
             weatherStatus.innerHTML = `<i class="fa fa-smog"></i>`
@@ -86,18 +84,18 @@ const setData = async(cityName) => {
             minTemp.innerHTML = data.main.temp_min
             maxTemp.innerHTML = data.main.temp_max
 
-            if(data.weather[0].main === 'Clouds') {
+            if(data.weather[0].main === 'Clouds')
                 weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`
-            }
-            if(data.weather[0].main === 'Rain') {
+            
+            if(data.weather[0].main === 'Rain')
                 weatherStatus.innerHTML = `<i class="fa fa-cloud-rain" style="color: deepskyblue"></i>`
-            }
-            if(data.weather[0].main === 'Clear') {
+            
+            if(data.weather[0].main === 'Clear')
                 weatherStatus.innerHTML = `<i class="fa fa-sun-o" style="color: yellow"></i>`
-            }
-            if(data.weather[0].main === 'Haze') {
+            
+            if(data.weather[0].main === 'Haze')
                 weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`
-            }
+            
         }
         else if(data.cod == 401) {
             cityText.innerHTML = `Invalid API Key`
@@ -112,6 +110,7 @@ const getData = (event) => {
     event.preventDefault();
     cityName = inputValue.value.trim();
     setData(cityName)
+    inputValue.blur()
 }
 
 submitBtn.addEventListener('click', getData)

@@ -19,20 +19,16 @@ const changeActive = (event, section) => {
         if(toggleBtn.getAttribute("aria-expanded") === "true") {
             toggleBtn.click();
         }
-        // focus on input field when weather nav item is clicked : CURRENTLY NOT WORKING 😞
-        if(section === navWeather) {
-            inputValue.focus()
-        }
     }
     section.classList.add("active")
 }
 
-// navHome.addEventListener('click', changeActive)
-// navWeather.addEventListener('click', changeActive)
-// navAbout.addEventListener('click', changeActive)
+navHome.addEventListener('click', changeActive)
+navWeather.addEventListener('click', changeActive)
+navAbout.addEventListener('click', changeActive)
 
 
-// Event to change nav item active status on mouseover
+// // Event to change nav item active status on mouseover
 // window.addEventListener('mouseover', (screen) => {
     
 //     const elements = document.elementsFromPoint(screen.x, screen.y);    
@@ -76,3 +72,22 @@ checkNowBtn.addEventListener('click', () => {
     window.location.href = '#weather'
     inputValue.focus()
 });
+
+
+//
+inputValue.addEventListener('focus', () => {
+    setTimeout(function() {
+        const x = scrollX + weather.getBoundingClientRect().left // X
+        const y = scrollY + weather.getBoundingClientRect().top // Y
+        window.scrollTo(x, y)
+    }, 300)
+});
+
+// inputValue.addEventListener('blur', () => {
+//     setTimeout(function() {
+//         // const x = scrollX + weather.getBoundingClientRect().left // X
+//         // const y = scrollY + weather.getBoundingClientRect().top // Y
+//         // window.scrollTo(x, y)
+//         window.location.href = '#weather'
+//     }, 200)
+// });

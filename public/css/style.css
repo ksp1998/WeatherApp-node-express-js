@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Mate+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,500&display=swap');
 
+/* css variables */
 :root {
     --header-color: rgba(0, 0, 0, 0.9);
     --theme-btn-color: white;
@@ -15,6 +16,7 @@
     --btn-hover-bgcolor: red;
 }
 
+/* text selection style */
 ::selection {
     color: red;
     text-shadow: .1rem .25rem .15rem var(--header-color);
@@ -28,7 +30,6 @@
 
 /* styling body */
 body {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: 'Mate SC', serif;
@@ -93,6 +94,7 @@ a {
     text-shadow: var(--text-shadow);
 }
 
+/* styling home, weather and about section */
 .home-section, .weather-section, .about-section {
     padding-top: 10vh;
     min-height: 100vh;
@@ -117,12 +119,13 @@ a {
 }
 
 .heading p {
-    margin: .25rem;
-    font-size: 1.2rem;
+    margin: .5rem;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
 .heading h1 {
+    text-transform: none;
     font-size: 1.75rem;
 }
 
@@ -136,10 +139,6 @@ a {
     z-index: 1;
 }
 
-/* .carousel-inner div {
-    text-align: center;
-} */
-
 .images img {
     width: 100%;
 }
@@ -152,7 +151,7 @@ a {
     align-items: center;
 }
 
-.weather-form *, .heading button, .error-btn {
+.weather-form *, .my-btn, .error-btn {
     width: 100%;
     padding: .5rem 1rem;
     outline: none;
@@ -170,13 +169,13 @@ a {
     box-shadow: 0 .5rem 1rem var(--btn-bgcolor);
 }
 
-.weather-form button, .heading button, .error-btn {
+.my-btn, .error-btn {
     color: var(--btn-color);
     background-color: var(--btn-bgcolor);
     box-shadow: 0 .5rem 1rem var(--btn-color);
 }
 
-.weather-form button:hover, .heading button:hover, .error-btn:hover {
+.my-btn:hover, .error-btn:hover {
     color: var(--btn-hover-color);
     background-color: var(--btn-hover-bgcolor);
     box-shadow: 0 .5rem 1rem var(--btn-bgcolor);
@@ -231,13 +230,17 @@ hr {
 
 @media (max-width: 767px) {
 
+    .home-section, .weather-section, .about-section, .error-section {
+        min-height: auto;
+    }
+
     .home-section .row, .weather-section .row, .about-section .row, .error-section .row {
-        height: 90vh;
         padding: 4rem 0;
     }
 
     .half-section {
         height: auto;
+        padding: 2rem 0;
     }
 
     .about-section img {
