@@ -69,8 +69,12 @@ window.addEventListener("scroll", (screen) => {
 
 // focus on weather form on button click
 checkNowBtn.addEventListener('click', () => {
-    window.location.href = '#weather'
-    inputValue.focus()
+    setTimeout(function() {
+        inputValue.focus()
+    }, 300)
+    const x = scrollX + weather.getBoundingClientRect().left // X
+    const y = scrollY + weather.getBoundingClientRect().top // Y
+    window.scrollTo(x, y)
 });
 
 
