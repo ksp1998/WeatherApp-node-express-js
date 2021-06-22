@@ -9,6 +9,17 @@
 // const minTemp = document.getElementById('minTemp')
 // const maxTemp = document.getElementById('maxTemp')
 
+const API_KEY = '284b84ec4a7e7f27748df72eb78ddbd2'
+
+const getAPIData = async (cityName) => {
+
+    const j = await fetch('')
+
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`
+    const response = await fetch(apiURL)
+    const data = await response.json();
+    return data
+}
 
 const setDate = (offset = 19800) => {
 
@@ -16,39 +27,38 @@ const setDate = (offset = 19800) => {
     const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
     
     let currDate = new Date()
-    // currDate.setHours(currDate.getHours() - 5)
-    // currDate.setMinutes(currDate.getMinutes() - 30)
     currDate.setMinutes(currDate.getMinutes() + currDate.getTimezoneOffset())
     currDate.setSeconds(currDate.getSeconds() + offset)
+
     const day = currDate.getDay()
     const month = currDate.getMonth()
     const date = currDate.getDate()
     let tag = 'th'
-    if(date === 1 || date === 21 || date === 31) {
-        tag = 'st'
+    switch(date) {
+        case 1, 21, 31 : tag = 'st'; break
+        case 2, 22 : tag = 'nd'; break
+        case 3, 33 : tag = 'rd'; break
     }
-    if(date === 2 || date === 22) {
-        tag = 'nd'
-    }
-    if(date === 3 || date === 23) {
-        tag = 'rd'
-    }
+    
     const year = currDate.getFullYear()
     let hours = currDate.getHours()
     const minutes = currDate.getMinutes()
-    let ampm = 'AM'
-    if(hours >= 12) {
-        hours -= 12
-        ampm = 'PM'
-    }
 
+    let ampm = 'AM'
+    if(hours === 0) {
+        hours = 12
+    }
+    else if(hours >= 12) {
+        
+        ampm = 'PM'
+        if(hours > 12)
+            hours -= 12
+    }
     dateText.innerHTML = `${weekdays[day]}, ${months[month]} ${date}<sup>${tag}</sup>, ${year} | ${hours}:${minutes} ${ampm}`
 }
 
-const API_KEY = '284b84ec4a7e7f27748df72eb78ddbd2'
-
-const getAPIData = async (cityName) => {
-
+const setData = async(cityName) => {
+    
     setDate();
 
     weatherStatus.innerHTML = `<i class="fa fa-question"></i>`
@@ -59,12 +69,12 @@ const getAPIData = async (cityName) => {
 
     if(cityName === '') {
         cityText.innerHTML = 'Please input city name!'
+        inputValue.focus()
         // console.log('Please input city name!');
     }
     else {
-        const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`
-        const response = await fetch(apiURL)
-        const data = await response.json();
+        
+        const data = await getAPIData(cityName)
         // console.log(data)
 
         if(data.cod === 200) {
@@ -77,21 +87,23 @@ const getAPIData = async (cityName) => {
             maxTemp.innerHTML = data.main.temp_max
 
             if(data.weather[0].main === 'Clouds') {
-                weatherStatus.innerHTML = `<i class="text-light fa fa-cloud"></i>`
+                weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`
             }
             if(data.weather[0].main === 'Rain') {
-                weatherStatus.innerHTML = `<i class="text-primary fa fa-cloud-rain"></i>`
+                weatherStatus.innerHTML = `<i class="fa fa-cloud-rain" style="color: deepskyblue"></i>`
             }
             if(data.weather[0].main === 'Clear') {
-                weatherStatus.innerHTML = `<i class="text-warning fa fa-sun-o"></i>`
+                weatherStatus.innerHTML = `<i class="fa fa-sun-o" style="color: yellow"></i>`
             }
             if(data.weather[0].main === 'Haze') {
-                weatherStatus.innerHTML = `<i class="text-warning fa fa-smog"></i>`
+                weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`
             }
+        }
+        else if(data.cod == 401) {
+            cityText.innerHTML = `Invalid API Key`
         }
         else if(data.cod === "404") {
             cityText.innerHTML = data.message
-            // console.log(data.message);
         }
     }
 }
@@ -99,9 +111,9 @@ const getAPIData = async (cityName) => {
 const getData = (event) => {
     event.preventDefault();
     cityName = inputValue.value.trim();
-    getAPIData(cityName)
+    setData(cityName)
 }
 
 submitBtn.addEventListener('click', getData)
 
-getAPIData('Mumbai')
+setData('Mumbai')

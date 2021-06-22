@@ -27,15 +27,36 @@ const changeActive = (event, section) => {
     section.classList.add("active")
 }
 
-navHome.addEventListener('click', changeActive)
-navWeather.addEventListener('click', changeActive)
-navAbout.addEventListener('click', changeActive)
+// navHome.addEventListener('click', changeActive)
+// navWeather.addEventListener('click', changeActive)
+// navAbout.addEventListener('click', changeActive)
 
 
 // Event to change nav item active status on mouseover
-window.addEventListener('mouseover', (screen) => {
+// window.addEventListener('mouseover', (screen) => {
     
-    const elements = document.elementsFromPoint(screen.x, screen.y);
+//     const elements = document.elementsFromPoint(screen.x, screen.y);    
+//     elements.map((element) => {
+
+//         if(element.classList.contains('home-section'))
+//             changeActive(null, navHome)
+        
+//         if(element.classList.contains('weather-section'))
+//             changeActive(null, navWeather)
+        
+//         if(element.classList.contains('about-section'))
+//             changeActive(null, navAbout)
+//     })
+// })
+
+// Event to change nav item active status on scroll
+window.addEventListener("scroll", (screen) => {
+
+    const x = window.innerWidth / 2
+    const y = scrollY % Math.round(window.innerHeight)
+
+    const elements = document.elementsFromPoint(x, y);    
+    
     elements.map((element) => {
 
         if(element.classList.contains('home-section'))
@@ -47,7 +68,7 @@ window.addEventListener('mouseover', (screen) => {
         if(element.classList.contains('about-section'))
             changeActive(null, navAbout)
     })
-})
+});
 
 
 // focus on weather form on button click

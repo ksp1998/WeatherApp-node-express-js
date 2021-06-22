@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
     {{>headerLinks}}
+    <title>Weather | 404-Page Not Found</title>
 </head>
 <body>
-    <!-- NavBar starts here -->
-    {{>navbar}}
-    <!-- NavBar ends here -->
-
-    404 error page
-
-    <!-- Footer starts here -->
-    {{>footer}}
-    <!-- Footer ends here -->
-
+    <div id="about" class="container-fluid error-section">
+        <div class="row justify-content-center">
+            <div class="col-10 col-md-5 half-section">
+                <img src="images/404.gif" alt="404png" title="" />
+            </div>
+            <div class="col-10 col-md-5 half-section text-center">
+                <h1>Oops, That's an  Error</h1>
+                <h4>The requested URL {{ url }} was not found on this server.</h4>
+                <a class="error-btn" href="/">Go to Home Page</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

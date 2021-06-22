@@ -1,19 +1,25 @@
 <div id="weather" class="container-fluid weather-section">
     <div class="row">
         <div class="col-10 col-md-4 half-section">
-            <h2>Get Your City Temprature</h2>
+            <h4>Get Your City Temprature</h4>
             <form class="weather-form" id="form">
                 <input type="text" id="inputValue" placeholder="Enter City" />
                 <button id="submitBtn">get</button>
             </form>
         </div>
-        <div class="col-10 col-md-4 half-section">
+        <div class="col-10 col-md-4 half-section result">
             <h2 id="cityText">?</h2>
             <h6 id="dateText">?</h6>
-            <div id="weatherStatus" class="weather-status">
+            <hr>
+            <div id="weatherStatus" class="weather-status"
+                {{!-- style="background: linear-gradient(#acb6e5, #86fde8);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;" --}}
+                            >
                 <i class="fa fa-question"></i>
             </div>
             <h6 id="descText">?</h6>
+            <hr>
             <h1><span id="temp">?</span> &deg;C</h1>
             <div class="minmax">
                 <div>
@@ -25,6 +31,7 @@
                     <p><span id="maxTemp">?</span> &deg;C</p>
                 </div>
             </div>
+            <hr>
         </div>
     </div>
 </div>
