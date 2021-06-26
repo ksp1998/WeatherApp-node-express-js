@@ -17,7 +17,7 @@ const changeTheme = (value) => {
         css.setProperty('--text-color', '#ffffff')
         css.setProperty('--text-shadow-color', '#000000')
         css.setProperty('--app-title-color', 'yellow')
-        themeBtn.innerHTML = '<img src="https://img.icons8.com/officel/40/000000/sun.png"/>'
+        themeBtn.innerHTML = '<img class="fa fa-spin" src="https://img.icons8.com/officel/40/000000/sun.png"/>'
     }
     else {
         css.setProperty('--theme-btn-color', 'white')

@@ -4,7 +4,11 @@
 // const toggleBtn = document.getElementById('toggleBtn')
 // const inputValue = document.getElementById('inputValue')
 // const checkNowBtn = document.getElementById('checkNowBtn')
-
+// const connDialogRetryBtn = document.getElementById('connDialogRetryBtn')
+// const connDialogCancelBtn = document.getElementById('connDialogCancelBtn')
+// const connectionDialog = document.getElementById('connectionDialog')
+// const errorForm = document.getElementById('errorForm')
+// const clearBtn = document.getElementById('clearBtn')
 
 // Function to change nav item active status
 const changeActive = (event, section) => {
@@ -71,14 +75,14 @@ window.addEventListener("scroll", (screen) => {
 checkNowBtn.addEventListener('click', () => {
     setTimeout(function() {
         inputValue.focus()
-    }, 300)
+    }, 500)
     const x = scrollX + weather.getBoundingClientRect().left // X
     const y = scrollY + weather.getBoundingClientRect().top // Y
     window.scrollTo(x, y)
 });
 
 
-//
+// scroll to weather section on input focus
 inputValue.addEventListener('focus', () => {
     setTimeout(function() {
         const x = scrollX + weather.getBoundingClientRect().left // X
@@ -87,11 +91,19 @@ inputValue.addEventListener('focus', () => {
     }, 300)
 });
 
-// inputValue.addEventListener('blur', () => {
-//     setTimeout(function() {
-//         // const x = scrollX + weather.getBoundingClientRect().left // X
-//         // const y = scrollY + weather.getBoundingClientRect().top // Y
-//         // window.scrollTo(x, y)
-//         window.location.href = '#weather'
-//     }, 200)
-// });
+// hide connection dialog on button click
+connDialogCancelBtn.addEventListener('click', hideConnectionDialog)
+
+// retry connection on button click
+connDialogRetryBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    hideConnectionDialog();
+    setTimeout(function() {
+        getData(event)
+    }, 250)
+})
+
+// clear input field text on button click
+clearBtn.addEventListener('click', () => {
+    inputValue.value = ''
+})

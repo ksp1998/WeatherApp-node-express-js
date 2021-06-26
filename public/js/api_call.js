@@ -11,18 +11,44 @@
 
 const API_KEY = '284b84ec4a7e7f27748df72eb78ddbd2'
 
+const showConnectionDialog = () => {
+    connectionDialog.style.display = 'flex';
+    setTimeout(function() { 
+        errorForm.style.transform = 'translateY(0)'
+    }, 250);
+    // console.log('show')
+}
+
+const hideConnectionDialog = () => {
+    errorForm.style.transform = 'translateY(-100vh)'
+    setTimeout(function() { 
+        connectionDialog.style.display = 'none'
+    }, 250);
+    // console.log('hide')
+}
+
 const getAPIData = async (cityName) => {
+    let data = {
+        cod: "404",
+        message: "We couldn't found data!"
+    }
 
     const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`
-    const response = await fetch(apiURL)
-    const data = await response.json();
+    await fetch(apiURL)
+        .then(async (response) => {
+            data = await response.json() 
+        })
+        .catch(error => {
+            showConnectionDialog();
+            console.log(error)
+        })
     return data
 }
 
 const weekdays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satuday' ]
 const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
 
-const setDate = (offset = 19800) => {
+const setDate = (offset) => {
 
     let currDate = new Date()
     currDate.setMinutes(currDate.getMinutes() + currDate.getTimezoneOffset())
@@ -40,7 +66,7 @@ const setDate = (offset = 19800) => {
     
     const year = currDate.getFullYear()
     let hours = currDate.getHours()
-    const minutes = currDate.getMinutes()
+    const minutes = ('0' + currDate.getMinutes()).slice(-2)
 
     let ampm = 'AM'
     if(hours === 0) {
@@ -52,50 +78,77 @@ const setDate = (offset = 19800) => {
         if(hours > 12)
             hours -= 12
     }
+
+    hours = ('0' + hours).slice(-2)
     dateText.innerHTML = `${weekdays[day]}, ${months[month]} ${date}<sup>${tag}</sup>, ${year} | ${hours}:${minutes} ${ampm}`
 }
 
-const setData = async(cityName) => {
+const defaultData = {
+    timezone: 19800,
+    weather: [ 
+        { 
+            main: "question", 
+            description: "?" 
+        } 
+    ],
+    main: {
+        temp: "?",
+        temp_min: "?",
+        temp_max: "?"
+    }
+}
+
+const setData = (data = defaultData) => {
+
+    cityText.innerHTML = (data.name === undefined) 
+        ? `<i class="fa fa-spinner fa-pulse"></i> Please Wait...`
+        : `${data.name}, ${data.sys.country}`
     
-    setDate();
+    setDate(data.timezone)
+    temp.innerHTML = data.main.temp
+    minTemp.innerHTML = data.main.temp_min
+    maxTemp.innerHTML = data.main.temp_max
 
-    weatherStatus.innerHTML = `<i class="fa fa-question"></i>`
-    descText.innerHTML = '?'
-    temp.innerHTML = '?'
-    minTemp.innerHTML = '?'
-    maxTemp.innerHTML = '?'
+    descText.innerHTML = data.weather[0].description
 
+    switch(data.weather[0].main) {
+        case 'Clear' : 
+            weatherStatus.innerHTML = `<i class="fa fa-sun" style="color: yellow"></i>`
+            break
+        case 'Clouds' :
+            weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`
+            break
+        case 'Haze', 'Mist' :
+            weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`
+            break
+        case 'Rain' :
+            weatherStatus.innerHTML = `<i class="fa fa-cloud-rain" style="color: deepskyblue"></i>`
+            break
+        default :
+            weatherStatus.innerHTML = `<i class="fa fa-question"></i>`
+    }
+}
+
+const processRequest = async (cityName) => {
+
+    if(!window.navigator.onLine) {
+        showConnectionDialog();
+        return
+    }
+
+    setData()
     if(cityName === '') {
         cityText.innerHTML = 'Please input city name!'
         inputValue.focus()
     }
     else {
-        
+        inputValue.disabled = submitBtn.disabled = true;
         const data = await getAPIData(cityName)
+        inputValue.disabled = submitBtn.disabled = false;
         // console.log(data)
 
         if(data.cod === 200) {
-
-            cityText.innerHTML = `${data.name}, ${data.sys.country}`
-            setDate(data.timezone)
-            weatherStatus.innerHTML = `<i class="fa fa-smog"></i>`
-            descText.innerHTML = data.weather[0].description
-            temp.innerHTML = data.main.temp
-            minTemp.innerHTML = data.main.temp_min
-            maxTemp.innerHTML = data.main.temp_max
-
-            if(data.weather[0].main === 'Clouds')
-                weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`
-            
-            if(data.weather[0].main === 'Rain')
-                weatherStatus.innerHTML = `<i class="fa fa-cloud-rain" style="color: deepskyblue"></i>`
-            
-            if(data.weather[0].main === 'Clear')
-                weatherStatus.innerHTML = `<i class="fa fa-sun-o" style="color: yellow"></i>`
-            
-            if(data.weather[0].main === 'Haze')
-                weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`
-            
+            setData(data)
         }
         else if(data.cod == 401) {
             cityText.innerHTML = `Invalid API Key`
@@ -106,13 +159,18 @@ const setData = async(cityName) => {
     }
 }
 
-const getData = (event) => {
+const getData = async (event) => {
     event.preventDefault();
+
     cityName = inputValue.value.trim();
-    setData(cityName)
+    await processRequest(cityName)
     inputValue.blur()
 }
 
 submitBtn.addEventListener('click', getData)
 
-setData('Mumbai')
+processRequest('Mumbai')
+
+window.onerror = function(error) {
+    console.log("Error", error)
+};

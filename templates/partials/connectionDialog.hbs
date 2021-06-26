@@ -1,0 +1,28 @@
+<div id="connectionDialog" class="connection-dialog">
+    <form id="errorForm" class="error-form">
+        <i id="connDialogCancelBtn" class="fa fa-close closeBtn" title="Close Dialog"></i>
+        <h5>The connection was interrupted</h5>
+        <p>Try:</p>
+        <ul>
+            <li>Checking the network cables, modem, and router</li>
+            <li>Reconnecting to Wi-Fi</li>
+        </ul>
+        <p>Reasons maybe:</p>
+        <pre style="overflow: hidden">
+ERR_INTERNET_DISCONNECTED
+ERR_CONNECTION_RESET
+ERR_CONNECTION_TIMED_OUT
+ERR_NETWORK_CHANGED
+        </pre>
+        <button id="connDialogRetryBtn" class="my-btn">Retry</button>
+    </form>
+</div>
+
+{{!-- 
+    ERR_INTERNET_DISCONNECTED
+    ERR_PROXY_CONNECTION_FAILED
+    ERR_CONNECTION_RESET
+    ERR_CONNECTION_CLOSE
+    ERR_NAME_NOT_RESOLVED
+    ERR_CONNECTION_TIMED_OUT
+--}}
