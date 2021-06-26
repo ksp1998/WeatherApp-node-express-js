@@ -110,6 +110,7 @@ const setData = (data = defaultData) => {
     maxTemp.innerHTML = data.main.temp_max
 
     descText.innerHTML = data.weather[0].description
+    console.log(data.weather[0].main)
 
     switch(data.weather[0].main) {
         case 'Clear' : 
@@ -118,7 +119,8 @@ const setData = (data = defaultData) => {
         case 'Clouds' :
             weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`
             break
-        case 'Haze', 'Mist' :
+        case 'Haze' :
+        case 'Mist' :
             weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`
             break
         case 'Rain' :
