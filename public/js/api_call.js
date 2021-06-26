@@ -110,7 +110,7 @@ const setData = (data = defaultData) => {
     maxTemp.innerHTML = data.main.temp_max
 
     descText.innerHTML = data.weather[0].description
-    console.log(data.weather[0].main)
+    // console.log(data.weather[0].main)
 
     switch(data.weather[0].main) {
         case 'Clear' : 
