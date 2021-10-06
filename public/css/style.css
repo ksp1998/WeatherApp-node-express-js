@@ -171,6 +171,26 @@ a {
     position: relative;
 }
 
+.weather-form #suggestionList {
+    position: fixed;
+    width: 28%;
+    transform: translateY(-1.5rem);
+    color: #000000;
+    background-color: #FFFFFF;
+    text-shadow: none;
+    border-radius: 0 0 .5rem .5rem;
+    transition: none;
+    padding: 0;
+    z-index: 10;
+}
+
+.weather-form #suggestionList * {
+    padding: .5rem .2rem;
+    margin: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .2); 
+    cursor: pointer;
+}
+
 .weather-form div i {
     position: absolute;
     color: red;
@@ -193,7 +213,7 @@ a {
 }
 
 .weather-form button:disabled:hover {
-    background-color: rgba(0, 0, 0, .8);;
+    background-color: rgba(0, 0, 0, .8);
 }
 
 .my-btn, .error-btn {
@@ -306,6 +326,10 @@ hr {
     .half-section {
         height: auto;
         padding: 2rem 0;
+    }
+
+    .weather-form #suggestionList {
+        width: 78%;
     }
 
     .error-section img {

@@ -2,10 +2,12 @@
     <div class="row">
         <div class="col-10 col-md-4 half-section">
             <h4>Get Your City Temprature</h4>
-            <form class="weather-form" id="form">
+            <form class="weather-form" id="form" autocomplete="off">
                 <div>
-                    <input type="text" id="inputValue" placeholder="Enter City" />
+                    <input type="text" id="inputValue" placeholder="Enter City" autocomplete="off" />
                     <i id="clearBtn" class="fa fa-close" title="Clear Text"></i>
+                </div>
+                <div id="suggestionList">
                 </div>
                 <button id="submitBtn" class="my-btn">get</button>
             </form>
@@ -36,5 +38,16 @@
             </div>
             <hr>
         </div>
+
+        <iframe
+            class="col-12 col-md-8"
+            id="map"
+            height="300"
+            style="margin-bottom: 80px"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDD1MsjuZbXMZlGOc6SMQIDyQYRfbr9HZY&q=Mumbai">
+        </iframe>
+
     </div>
 </div>

@@ -3,7 +3,7 @@ const themeBtn = document.getElementById("themeBtn")
 // document.cookie = `theme=day; expires=Thu, 31 Dec 2099 12:00:00 UTC; path='/'`
 // document.cookie = `currentTheme=night; expires=Thu, 31 Dec 2099 12:00:00 UTC; path='/'`
 
-const css = document.documentElement.style
+const style = document.documentElement.style
 
 const changeTheme = (value) => {
 
@@ -12,19 +12,19 @@ const changeTheme = (value) => {
     document.cookie = `theme=${value}; expires=Thu, 31 Dec 2099 12:00:00 UTC; path='/'`
 
     if(document.cookie.match('day') === null) {
-        css.setProperty('--theme-btn-color', 'yellow')
-        css.setProperty('--main-bg', 'url("../images/night.png")')
-        css.setProperty('--text-color', '#ffffff')
-        css.setProperty('--text-shadow-color', '#000000')
-        css.setProperty('--app-title-color', 'yellow')
+        style.setProperty('--theme-btn-color', 'yellow')
+        style.setProperty('--main-bg', 'url("../images/night.png")')
+        style.setProperty('--text-color', '#ffffff')
+        style.setProperty('--text-shadow-color', '#000000')
+        style.setProperty('--app-title-color', 'yellow')
         themeBtn.innerHTML = '<img class="fa fa-spin" src="https://img.icons8.com/officel/40/000000/sun.png"/>'
     }
     else {
-        css.setProperty('--theme-btn-color', 'white')
-        css.setProperty('--main-bg', 'url("../images/day.png")')
-        css.setProperty('--text-color', '#000000')
-        css.setProperty('--text-shadow-color', '#ffffff')
-        css.setProperty('--app-title-color', 'red')
+        style.setProperty('--theme-btn-color', 'white')
+        style.setProperty('--main-bg', 'url("../images/day.png")')
+        style.setProperty('--text-color', '#000000')
+        style.setProperty('--text-shadow-color', '#ffffff')
+        style.setProperty('--app-title-color', 'red')
         themeBtn.innerHTML = '<img src="https://img.icons8.com/plasticine/40/000000/bright-moon.png"/>'
     }
 }

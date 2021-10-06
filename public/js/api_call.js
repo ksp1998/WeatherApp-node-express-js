@@ -8,21 +8,23 @@
 // const temp = document.getElementById('temp')
 // const minTemp = document.getElementById('minTemp')
 // const maxTemp = document.getElementById('maxTemp')
+// const map = document.getElementById('map')
 
-const API_KEY = '284b84ec4a7e7f27748df72eb78ddbd2'
+const OPEN_WEATHER_API_KEY = '284b84ec4a7e7f27748df72eb78ddbd2';
+const MAP_EMBED_API_KEY = 'AIzaSyDD1MsjuZbXMZlGOc6SMQIDyQYRfbr9HZY';
 
 const showConnectionDialog = () => {
     connectionDialog.style.display = 'flex';
     setTimeout(function() { 
-        errorForm.style.transform = 'translateY(0)'
+        errorForm.style.transform = 'translateY(0)';
     }, 250);
     // console.log('show')
 }
 
 const hideConnectionDialog = () => {
-    errorForm.style.transform = 'translateY(-100vh)'
+    errorForm.style.transform = 'translateY(-100vh)';
     setTimeout(function() { 
-        connectionDialog.style.display = 'none'
+        connectionDialog.style.display = 'none';
     }, 250);
     // console.log('hide')
 }
@@ -33,54 +35,54 @@ const getAPIData = async (cityName) => {
         message: "We couldn't found data!"
     }
 
-    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${OPEN_WEATHER_API_KEY}`;
     await fetch(apiURL)
         .then(async (response) => {
-            data = await response.json() 
+            data = await response.json();
         })
         .catch(error => {
             showConnectionDialog();
-            console.log(error)
+            console.log(error);
         })
-    return data
+    return data;
 }
 
-const weekdays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satuday' ]
-const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+const weekdays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satuday' ];
+const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
 
 const setDate = (offset) => {
 
-    let currDate = new Date()
-    currDate.setMinutes(currDate.getMinutes() + currDate.getTimezoneOffset())
-    currDate.setSeconds(currDate.getSeconds() + offset)
+    let currDate = new Date();
+    currDate.setMinutes(currDate.getMinutes() + currDate.getTimezoneOffset());
+    currDate.setSeconds(currDate.getSeconds() + offset);
 
-    const day = currDate.getDay()
-    const month = currDate.getMonth()
-    const date = currDate.getDate()
+    const day = currDate.getDay();
+    const month = currDate.getMonth();
+    const date = currDate.getDate();
     let tag = 'th'
     switch(date) {
-        case 1, 21, 31 : tag = 'st'; break
-        case 2, 22 : tag = 'nd'; break
-        case 3, 33 : tag = 'rd'; break
+        case 1, 21, 31 : tag = 'st'; break;
+        case 2, 22 : tag = 'nd'; break;
+        case 3, 33 : tag = 'rd'; break;
     }
     
-    const year = currDate.getFullYear()
-    let hours = currDate.getHours()
-    const minutes = ('0' + currDate.getMinutes()).slice(-2)
+    const year = currDate.getFullYear();
+    let hours = currDate.getHours();
+    const minutes = ('0' + currDate.getMinutes()).slice(-2);
 
-    let ampm = 'AM'
+    let ampm = 'AM';
     if(hours === 0) {
-        hours = 12
+        hours = 12;
     }
     else if(hours >= 12) {
         
-        ampm = 'PM'
+        ampm = 'PM';
         if(hours > 12)
-            hours -= 12
+            hours -= 12;
     }
 
-    hours = ('0' + hours).slice(-2)
-    dateText.innerHTML = `${weekdays[day]}, ${months[month]} ${date}<sup>${tag}</sup>, ${year} | ${hours}:${minutes} ${ampm}`
+    hours = ('0' + hours).slice(-2);
+    dateText.innerHTML = `${weekdays[day]}, ${months[month]} ${date}<sup>${tag}</sup>, ${year} | ${hours}:${minutes} ${ampm}`;
 }
 
 const defaultData = {
@@ -102,62 +104,72 @@ const setData = (data = defaultData) => {
 
     cityText.innerHTML = (data.name === undefined) 
         ? `<i class="fa fa-spinner fa-pulse"></i> Please Wait...`
-        : `${data.name}, ${data.sys.country}`
+        : `${data.name}, ${data.sys.country}`;
     
-    setDate(data.timezone)
-    temp.innerHTML = data.main.temp
-    minTemp.innerHTML = data.main.temp_min
-    maxTemp.innerHTML = data.main.temp_max
+    setDate(data.timezone);
+    temp.innerHTML = data.main.temp;
+    minTemp.innerHTML = data.main.temp_min;
+    maxTemp.innerHTML = data.main.temp_max;
 
-    descText.innerHTML = data.weather[0].description
+    descText.innerHTML = data.weather[0].description;
     // console.log(data.weather[0].main)
 
     switch(data.weather[0].main) {
         case 'Clear' : 
-            weatherStatus.innerHTML = `<i class="fa fa-sun" style="color: yellow"></i>`
-            break
+            weatherStatus.innerHTML = `<i class="fa fa-sun" style="color: yellow"></i>`;
+            break;
         case 'Clouds' :
-            weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`
-            break
+            weatherStatus.innerHTML = `<i class="fa fa-cloud" style="color: skyblue"></i>`;
+            break;
         case 'Haze' :
         case 'Mist' :
-            weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`
-            break
+            weatherStatus.innerHTML = `<i class="fa fa-smog" style="color: whitesmoke"></i>`;
+            break;
         case 'Rain' :
-            weatherStatus.innerHTML = `<i class="fa fa-cloud-rain" style="color: deepskyblue"></i>`
-            break
+            weatherStatus.innerHTML = `<i class="fa fa-cloud-rain" style="color: deepskyblue"></i>`;
+            break;
+        case 'Thunderstorm' :
+            weatherStatus.innerHTML = `<i class="fas fa-poo-storm" style="color: gold"></i>`;
+            break;
         default :
-            weatherStatus.innerHTML = `<i class="fa fa-question"></i>`
+            weatherStatus.innerHTML = `<i class="fa fa-question"></i>`;
     }
+
+    if(data.main.temp !== "?")
+        map.src = `https://www.google.com/maps/embed/v1/place?key=${MAP_EMBED_API_KEY}&q=${data.name},+${data.sys.country}`;
 }
 
 const processRequest = async (cityName) => {
 
     if(!window.navigator.onLine) {
         showConnectionDialog();
-        return
+        return;
+    }
+
+    if(cityName === '') {
+        cityText.innerHTML = 'Please input city name!';
+        inputValue.focus();
+        return;
     }
 
     setData()
-    if(cityName === '') {
-        cityText.innerHTML = 'Please input city name!'
-        inputValue.focus()
-    }
-    else {
-        inputValue.disabled = submitBtn.disabled = true;
-        const data = await getAPIData(cityName)
-        inputValue.disabled = submitBtn.disabled = false;
-        // console.log(data)
+    inputValue.disabled = submitBtn.disabled = true;
+    const data = await getAPIData(cityName);
+    inputValue.disabled = submitBtn.disabled = false;
+    // console.log(data)
 
-        if(data.cod === 200) {
-            setData(data)
-        }
-        else if(data.cod == 401) {
-            cityText.innerHTML = `Invalid API Key`
-        }
-        else if(data.cod === "404") {
-            cityText.innerHTML = data.message
-        }
+    if(data.cod === 200) {
+        setData(data);
+        // let history = JSON.parse(localStorage.searchHistory);
+        // console.log(history);
+
+        // localStorage.searchHistory = JSON.stringify(history);
+    }
+    else if(data.cod == 401) {
+        cityText.innerHTML = `Invalid API Key`;
+    }
+    else if(data.cod === "404") {
+        cityText.innerHTML = data.message;
     }
 }
 
@@ -165,14 +177,14 @@ const getData = async (event) => {
     event.preventDefault();
 
     cityName = inputValue.value.trim();
-    await processRequest(cityName)
-    inputValue.blur()
+    await processRequest(cityName);
+    inputValue.blur();
 }
 
-submitBtn.addEventListener('click', getData)
+submitBtn.addEventListener('click', getData);
 
-processRequest('Mumbai')
+processRequest('Mumbai');
 
 window.onerror = function(error) {
-    console.log("Error", error)
+    console.log("Error", error);
 };
